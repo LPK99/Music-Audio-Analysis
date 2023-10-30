@@ -3,12 +3,17 @@ from keyfinder import Tonal_Fragment
 import librosa
 import librosa.display
 from tempofinder import get_audio_tempo
+from pytube import YouTube
 
 def main():
     st.title('Audio Analysis')
-    audio_input = st.file_uploader('Upload your adio file', type=['mp3'])
+    audio_input = st.text_input('Enter your youtube URL: ')
+    
 
     if st.button('Analyze'):
+        audio_input = YouTube(audio_input).streams.filter(only_audio=True).first()
+        audio_input = audio_input.download()
+        st.audio(audio_input)
         y, sr = librosa.load(audio_input)
         y_harmonic, y_percussive = librosa.effects.hpss(y)
         unebarque_fsharp_min = Tonal_Fragment(y_harmonic, sr, tend=22)
