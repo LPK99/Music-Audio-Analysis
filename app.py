@@ -12,7 +12,7 @@ def main():
 
     if st.button('Analyze'):
         audio_input = YouTube(audio_input).streams.filter(only_audio=True).first()
-        audio_input = audio_input.download(type='mp3')
+        audio_input = audio_input.download()
         print(type(audio_input))
         st.audio(audio_input)
         
